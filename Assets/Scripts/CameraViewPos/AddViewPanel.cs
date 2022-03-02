@@ -22,7 +22,7 @@ public class AddViewPanel : MonoBehaviour
 
     public RawImage viewScreen;
 
-    public Button submitBtn;
+    public Button submitBtn, editorImageBtn, editorEndBtn;
 
     private List<string> typeList = new List<string>() { "修改", "协同", "维修", "置换", "保养" };
 
@@ -42,6 +42,10 @@ public class AddViewPanel : MonoBehaviour
         form = new WWWForm();
 
         submitBtn.onClick.AddListener(() => { UpLoadCustomView(); });
+
+        editorImageBtn.onClick.AddListener(() => { EditorScreen(); });
+
+        editorEndBtn.onClick.AddListener(() => { EditorScreenEnd(); });
     }
 
     void OnEnable()
@@ -227,6 +231,26 @@ public class AddViewPanel : MonoBehaviour
         if (result != null) return result.uuid;
 
         return "";
+    }
+    #endregion
+
+    #region 图片编辑
+    /// <summary>
+    /// 编辑截图
+    /// </summary>
+    private void EditorScreen()
+    { 
+        editorEndBtn.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 截图编辑完成
+    /// </summary>
+    private void EditorScreenEnd()
+    {
+        viewScreen.texture = Util.CaptureCamera(Camera.main, new Rect(0, 0, Screen.width, Screen.height));
+
+        editorEndBtn.gameObject.SetActive(true);
     }
     #endregion
 }
